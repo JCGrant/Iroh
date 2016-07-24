@@ -9,26 +9,49 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  TouchableHighlight,
+  Image,
 } from 'react-native';
 
 class Iroh extends Component {
+
+  constructor(props) {
+    super(props);
+    var quotes = require('./quotes.json');
+    this.state = {
+      quotes: quotes,
+      currentQuote: '',
+    };
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
+        <Text style={styles.quote}>
+        { this.state.currentQuote }
         </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+        <TouchableHighlight onPress={this._onPressButton}>
+          <Image
+            style={styles.button}
+            source={require('./iroh.png')}
+          />
+        </TouchableHighlight>
       </View>
     );
   }
+
+  _setRandomQuote = () => {
+    var quotes = this.state.quotes;
+    var newQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    this.setState({
+      currentQuote: newQuote,
+    });
+  };
+
+  _onPressButton = () => {
+    this._setRandomQuote();
+  };
 }
 
 const styles = StyleSheet.create({
@@ -37,16 +60,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+    padding: 20,
   },
-  welcome: {
+  quote: {
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
 });
 
