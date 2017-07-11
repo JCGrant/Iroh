@@ -10,36 +10,34 @@ import {
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    var quotes = require('./quotes.json');
     this.state = {
-      quotes: quotes,
+      quotes: [],
       currentQuote: '',
     };
   }
 
+  componentWillMount() {
+    this.setState({
+      quotes: require('./quotes.json'),
+    });
+  }
+
   _setRandomQuote = () => {
-    var quotes = this.state.quotes;
-    var newQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    const quotes = this.state.quotes;
+    const newQuote = quotes[Math.floor(Math.random() * quotes.length)];
     this.setState({
       currentQuote: newQuote,
     });
-  };
-
-  _onPressButton = () => {
-    this._setRandomQuote();
   };
 
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.quote}>
-        { this.state.currentQuote }
+          {this.state.currentQuote}
         </Text>
-        <TouchableHighlight onPress={this._onPressButton}>
-          <Image
-            style={styles.button}
-            source={require('./iroh.png')}
-          />
+        <TouchableHighlight onPress={this._setRandomQuote}>
+          <Image source={require('./iroh.png')} />
         </TouchableHighlight>
       </View>
     );
@@ -49,14 +47,14 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#F5FCFF',
     padding: 20,
   },
   quote: {
     fontSize: 20,
     textAlign: 'center',
-    margin: 10,
+    marginBottom: 20,
   },
 });
