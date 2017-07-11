@@ -1,12 +1,5 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
-import React, { Component } from 'react';
+import React from 'react';
 import {
-  AppRegistry,
   StyleSheet,
   Text,
   View,
@@ -14,8 +7,7 @@ import {
   Image,
 } from 'react-native';
 
-class Iroh extends Component {
-
+export default class App extends React.Component {
   constructor(props) {
     super(props);
     var quotes = require('./quotes.json');
@@ -24,6 +16,18 @@ class Iroh extends Component {
       currentQuote: '',
     };
   }
+
+  _setRandomQuote = () => {
+    var quotes = this.state.quotes;
+    var newQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    this.setState({
+      currentQuote: newQuote,
+    });
+  };
+
+  _onPressButton = () => {
+    this._setRandomQuote();
+  };
 
   render() {
     return (
@@ -40,18 +44,6 @@ class Iroh extends Component {
       </View>
     );
   }
-
-  _setRandomQuote = () => {
-    var quotes = this.state.quotes;
-    var newQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    this.setState({
-      currentQuote: newQuote,
-    });
-  };
-
-  _onPressButton = () => {
-    this._setRandomQuote();
-  };
 }
 
 const styles = StyleSheet.create({
@@ -68,5 +60,3 @@ const styles = StyleSheet.create({
     margin: 10,
   },
 });
-
-AppRegistry.registerComponent('Iroh', () => Iroh);
